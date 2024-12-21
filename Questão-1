@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define MX 100
+
+int *z = NULL, *p = NULL, n = 0, y = 0, yaux = 0;
+
+int *AlocarMemoria (int);
+void Preencher(int*,int);
+void Imprimir(int*, int*, int, int);
+int ChecaDivisores(int*, int, int);
+void PreencherDivisores(int*, int*, int, int);
+
+int main () {
+    puts("Digite o tamanho do vetor desejado:");
+    scanf("%d",&n);
+    puts("Digite o valor de Y para checagem de divisores:");
+    scanf("%d",&y);
+
+    p = AlocarMemoria(n);
+    Preencher(p,n);
+    yaux = ChecaDivisores(p,n,y);
+    z = AlocarMemoria(yaux);
+    PreencherDivisores(p,z,n,y);
+    Imprimir(p,z,n,yaux);
+
+}
+
+int *AlocarMemoria (int qtd) {
+    int *p;
+    p = (int*) malloc(qtd * sizeof(int));
+    if(!p){
+        puts("Memória insuficiente.");
+        exit(1);
+    }
+    return p;
+}
+void Preencher(int *pv,int n){
+    srand(time(NULL));
+    for(int i = 0; i < n; i++){
+        *(pv+i) = rand()%MX;
+    }
+}
+void PreencherDivisores(int *pv, int *zv, int n, int y){
+    int aux = 0;
+    for(int i = 0; i < n; i++){
+        if(*(pv+i) > 0 &&*(pv+i)%y==0){
+            *(zv+aux) = *(pv+i);
+            aux++;
+        }
+    }
+}
+void Imprimir(int *pv, int *zv, int n, int yaux){
+    puts("Vetor P:");
+    for(int i = 0; i < n; i++){
+        printf("%d ",*(pv+i));
+    }
+    printf("\n");
+    puts("Vetor Z:");
+    for(int k = 0; k < yaux; k++){
+        printf("%d ",*(zv+k));
+    }
+    printf("\n");
+}
+int ChecaDivisores(int *pv, int qtd, int y){
+    int cnt = 0;
+    for(int i = 0; i < n; i++){
+        if(*(pv+i)%y==0){
+            cnt++;
+        }
+    }
+    return cnt;
+}
