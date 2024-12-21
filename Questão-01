@@ -57,6 +57,9 @@ void Imprimir(int *pv, int *zv, int n, int yaux){
     }
     printf("\n");
     puts("Vetor Z:");
+    if(yaux==0){
+        puts("Nenhum número divisivel.");
+    }
     for(int k = 0; k < yaux; k++){
         printf("%d ",*(zv+k));
     }
