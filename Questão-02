@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int *x = NULL, n = 0, y = 0;
+
+void Preencher(int*,int, int);
+int *AlocarMemoria (int);
+void Imprimir(int*, int);
+void MediaVetor(int*, int);
+void OrdenaVetor(int*, int);
+
+int main (){
+    puts("Digite o tamanho do Vetor X:");
+    scanf("%d",&n);
+    puts("Digite o range maximo dos números:");
+    scanf("%d",&y);
+
+    x = AlocarMemoria(n);
+    Preencher(x,n,y);
+    Imprimir(x,n);
+    OrdenaVetor(x,n);
+    Imprimir(x,n);
+    MediaVetor(x,n);
+
+}
+int *AlocarMemoria (int qtd) {
+    int *p;
+    p = (int*) malloc(qtd * sizeof(int));
+    if(!p){
+        puts("Memória insuficiente.");
+        exit(1);
+    }
+    return p;
+}
+void Preencher(int *xv,int n, int y){
+    srand(time(NULL));
+    for(int i = 0; i < n; i++){
+        *(xv+i) = rand()%y;
+    }
+}
+void Imprimir(int *xv, int n){
+    puts("Vetor X:");
+    for(int i = 0; i < n; i++){
+        printf("%d ",*(xv+i));
+    }
+    printf("\n");
+}
+void OrdenaVetor(int *xv, int n){
+    for(int k = 0; k < n-1; k++){
+        for(int j = 0; j < n - 1 - k; j++){
+            if(*(xv+j) > *(xv+j+1)){
+                *(xv+j) = *(xv+j) ^ *(xv+j+1);
+                *(xv+j+1) = *(xv+j) ^ *(xv+j+1);
+                *(xv+j) = *(xv+j) ^ *(xv+j+1);
+            }
+        }
+    }
+}
+void MediaVetor(int *xv, int n){
+    int soma = 0;
+    for(int i = 0; i < n; i++){
+        soma += *(xv+i);
+    }
+    printf("A média do vetor: %.2f",(float)soma/n);
+}
