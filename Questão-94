@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MX 100
+#define DIF 3
+#define NMX 2
+
+int *AlocarMemoria (int);
+void Preencher(int*,int);
+void Imprimir(int*, int);
+void PreencheY(int*, int*, int);
+
+int *x = NULL, *y = NULL, n = 0;
+
+int main (){
+    puts("Defina o tamanho do vetor X.");
+    scanf("%d",&n);
+    x = AlocarMemoria(n);
+    y = AlocarMemoria(n);
+    Preencher(x,n);
+    PreencheY(y,x,n);
+    Imprimir(x,n);
+    Imprimir(y,n);
+}
+int *AlocarMemoria (int qtd) {
+    int *p;
+    p = (int*) malloc(qtd * sizeof(int));
+    if(!p){
+        puts("Memória insuficiente.");
+        exit(1);
+    }
+    return p;
+}
+void Preencher(int *pv,int n){
+    srand(time(NULL));
+    for(int i = 0; i < n; i++){
+        *(pv+i) = rand()%MX;
+    }
+}
+void Imprimir(int *xv, int n){
+    puts("Vetor X:");
+    for(int i = 0; i < n; i++){
+        printf("%d ",*(xv+i));
+    }
+    printf("\n");
+}
+void PreencheY(int *yv, int *xv, int n){
+    srand(time(NULL));
+    int ale_neg = 0;
+    int ale_pos = 0;
+    for(int i = 0; i < n; i++){
+        ale_pos = rand()%DIF;
+        ale_neg = rand()%NMX;
+    if(ale_neg == 0){
+        ale_pos *= -1;
+    }
+        *(yv+i) = *(xv+i) + ale_pos;
+    }
+}
