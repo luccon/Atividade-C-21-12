@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define n 5
+#define MX 100
+
+int *AlocarMemoria();
+int **AlocarMemoriaF();
+void Preencher(int*);
+void Imprimir(int*);
+void DefineOrdem(int*,int**);
+void ImprimirF(int**);
+
+int **f = NULL;
+int *x = NULL;
+
+int main (){
+    x = AlocarMemoria();
+    f = AlocarMemoriaF();
+    Preencher(x);
+    Imprimir(x);
+    puts("Defina a ordem dos elementos.");
+    DefineOrdem(x,f);
+    puts("Ordem dos dois vetores:");
+    Imprimir(x);
+    ImprimirF(f);
+
+}
+int *AlocarMemoria () {
+    int *p;
+    p = (int*) malloc(n * sizeof(int));
+    if(!p){
+        puts("Memória insuficiente.");
+        exit(1);
+    }
+    return p;
+}
+int **AlocarMemoriaF(){
+    int **fv;
+    fv = (int**) malloc(n * sizeof(int*));
+    if (!fv) {
+        puts("Memória insuficiente para o vetor de ponteiros.");
+        exit(1);
+    }
+    return fv;
+}
+void Preencher(int *pv){
+    srand(time(NULL));
+    for(int i = 0; i < n; i++){
+        *(pv+i) = rand()%MX;
+    }
+}
+void Imprimir(int *xv){
+    puts("Vetor X:");
+    for(int i = 0; i < n; i++){
+        printf("%d ",*(xv+i));
+    }
+    printf("\n");
+}
+void ImprimirF(int **fv) {
+    puts("Vetor F:");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", **(fv+i));
+    }
+    printf("\n");
+}
+void DefineOrdem(int *xv, int **fv){
+    int aux = 0;
+    for(int i = 0; i < n; i++){
+        printf("Qual item deseja que seja o %dº elemento?\n",i+1);
+        scanf("%d",&aux);
+        if(aux == 0 || aux > n){
+            puts("Valor inválido, tente novamente.");
+            i--;
+        } else {
+            *(fv+i) = xv + (aux - 1);
+        }
+    }
+}
